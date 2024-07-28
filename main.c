@@ -328,7 +328,7 @@ void login()
         printf("\n\t\tEnter password: ");
         takepassword(password);
 
-        FILE *file = fopen("sign_up.csv", "r");
+        FILE *file = fopen("users.csv", "r");
         if (file == NULL)
         {
             printf("Could not open file.\n");
