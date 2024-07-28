@@ -1,9 +1,9 @@
-//Header files:
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 
-//Patient structure:
+#define SIZE 100
+
 struct patient {
     char name[100];
     int age;
@@ -12,23 +12,219 @@ struct patient {
     char address[100];
 };
 
-// Global variable:
+
+char username[100];
+char password[100];
+struct patient patients[SIZE];
 int logged_in = 0;
 
-//FUNCTIONS:
-
 void display_menu();
+void patient_details();
+void check_details();
+void update_details();
+//void clear_input_buffer();
 void display_signup();
+void loading_animation();
+void Exiting_animation();
 void signup();
 void login();
-void save_patient_details(struct patient p[], int size);
-int load_patient_details(struct patient p[]);
-void take_details(struct patient p[], int size);
-void check();
-void menu();
-void update_patient_details();
-void loading_animation();
-void takepassword(char password[20]);
+
+int main() {
+
+    display_signup();
+    int n;
+    label:
+            printf("Enter the option: ");
+            scanf("%d",&n);
+            if(n==1)
+            {
+                signup();
+            }
+            else if(n==2)
+            {
+                login();
+            }
+            else
+            {
+            printf("Entered wrong option !!,Try again....");
+            }
+
+    if(logged_in ){
+        int continue_program = 1;
+
+    while (continue_program) {
+        display_menu();
+        int option;
+        printf("Enter the option: ");
+        scanf("%d", &option);
+        getchar();
+
+        switch (option) {
+            case 1:
+                loading_animation();
+                patient_details();
+                break;
+            case 2:
+                loading_animation();
+                check_details();
+                break;
+            case 3:
+                loading_animation();
+                update_details();
+                break;
+            case 4:
+                loading_animation();
+                check();
+                break;
+            case 5:
+                loading_animation();
+                feedback();
+            case 6:
+                Exiting_animation();
+                printf("Exited Successfully......");
+                continue_program = 0;
+                exit(0);
+            default:
+                printf("Invalid option! Please try again.\n");
+        }
+
+        if (continue_program) {
+            char cont;
+            printf("Do you want to continue (Y/N)? ");
+            scanf(" %c", &cont);
+            getchar();
+
+            if (cont != 'Y' && cont != 'y') {
+                continue_program = 0;
+            }
+        }
+    }
+}
+
+
+    return 0;
+}
+
+void display_menu() {
+    printf("\n\n\n");
+    printf("\t\t\t*****************************************************\n");
+    printf("\t\t\t*****************************************************\n");
+    printf("\t\t\t*****                                          ******\n");
+    printf("\t\t\t*****                                          ******\n");
+    printf("\t\t\t*****           **** MENU ****                 ******\n");
+    printf("\t\t\t*****                                          ******\n");
+    printf("\t\t\t*****      1. ENTER PATIENT DETAILS            ******\n");
+    printf("\t\t\t*****      2. CHECK PATIENT DETAILS            ******\n");
+    printf("\t\t\t*****      3. EDIT PATIENT DETAILS             ******\n");
+    printf("\t\t\t*****      4. CHECK DISEASES AND MEDICINE      ******\n");
+    printf("\t\t\t*****      5. FEEDBACK ON THE HOSPITAL         ******\n");
+    printf("\t\t\t*****      6. EXIT                             ******\n");
+    printf("\t\t\t*****                                          ******\n");
+    printf("\t\t\t*****                                          ******\n");
+    printf("\t\t\t*****************************************************\n");
+    printf("\t\t\t*****************************************************\n");
+    printf("\n\n");
+}
+
+//This Function is used to Take the details the details of the patient
+
+void patient_details() {
+    int num_patients;
+    printf("How many patients do you want to add: ");
+    scanf("%d", &num_patients);
+
+    getchar();
+
+
+    for (int i = 0; i < num_patients; i++) {
+        printf("Enter the Patient %d Details:\n", i + 1);
+        printf("Enter the Patient Name: ");
+        fgets(patients[i].name, sizeof(patients[i].name), stdin);
+        printf("Enter the Patient age: ");
+        scanf("%d", &patients[i].age);
+        printf("Enter the bed number of the patient: ");
+        scanf("%d", &patients[i].bed_no);
+        printf("Enter the phone number of the patient: ");
+        scanf("%lld", &patients[i].pno);
+        getchar();
+        //clear_input_buffer(); // Clear input buffer after reading integers
+        printf("Enter the Address of the patient: ");
+        fgets(patients[i].address, sizeof(patients[i].address), stdin);
+    }
+    printf("The Details are saved Successfully\n");
+}
+
+//This Function is used to Check the details of the patient stored in structure
+
+void check_details() {
+    int bed_no;
+    printf("Enter the bed number to check the patient details: ");
+    scanf("%d", &bed_no);
+    getchar();
+
+
+    for (int i = 0; i < SIZE; i++) {
+        if (bed_no == patients[i].bed_no) {
+            printf("\nPatient name: %s", patients[i].name);
+            printf("Patient Age: %d\n", patients[i].age);
+            printf("Patient Bed number: %d\n", patients[i].bed_no);
+            printf("Patient Phone number: %lld\n", patients[i].pno);
+            printf("Patient Address: %s\n", patients[i].address);
+            return;
+        }
+    }
+    printf("No patient found with bed number %d\n", bed_no);
+}
+
+//This function is for update the patient details which stored in structure
+
+void update_details() {
+    int bed_no;
+    char op;
+
+    printf("Enter the bed number to check and update the patient details: ");
+    scanf("%d", &bed_no);
+    getchar();
+    //clear_input_buffer(); // Clear input buffer after reading an integer
+
+    for (int i = 0; i < SIZE; i++) {
+        if (bed_no == patients[i].bed_no) {
+            printf("\nPatient name: %s", patients[i].name);
+            printf("Patient Age: %d\n", patients[i].age);
+            printf("Patient Bed number: %d\n", patients[i].bed_no);
+            printf("Patient Phone number: %lld\n", patients[i].pno);
+            printf("Patient Address: %s\n", patients[i].address);
+
+            printf("Are these details correct (Y/N)? ");
+            scanf(" %c", &op);
+            getchar();
+            //clear_input_buffer(); // Clear input buffer after reading a character
+
+            if (op == 'Y' || op == 'y') {
+                printf("Enter the Patient new Name: ");
+                fgets(patients[i].name, sizeof(patients[i].name), stdin);
+                printf("Enter the Patient new age: ");
+                scanf("%d", &patients[i].age);
+                printf("Enter the new phone number of the patient: ");
+                scanf("%lld", &patients[i].pno);
+                getchar();
+                //clear_input_buffer(); // Clear input buffer after reading integers
+                printf("Enter the new Address of the patient: ");
+                fgets(patients[i].address, sizeof(patients[i].address), stdin);
+                printf("Details updated successfully.\n");
+                return;
+            } else if (op == 'N' || op == 'n') {
+                printf("Rechecking details...\n");
+                i = -1; // Restart the loop
+            } else {
+                printf("You entered an invalid option.\n");
+            }
+        }
+    }
+    printf("No patient found with bed number %d\n", bed_no);
+}
+
+// Display Menu(login,signup,exit):
 
 void display_signup() {
     printf("\n\n\n");
@@ -48,30 +244,7 @@ void display_signup() {
     printf("\n\n");
 }
 
-void display_menu()
-{
-    printf("\n\n\n");
-    printf("\t\t\t*****************************************************\n");
-    printf("\t\t\t*****************************************************\n");
-    printf("\t\t\t*****                                          ******\n");
-    printf("\t\t\t*****                                          ******\n");
-    printf("\t\t\t*****           **** MENU ****                 ******\n");
-    printf("\t\t\t*****                                          ******\n");
-    printf("\t\t\t*****      1. ENTER PATIENT DETAILS            ******\n");
-    printf("\t\t\t*****      2. CHECK PATIENT DETAILS            ******\n");
-    printf("\t\t\t*****      3. EDIT PATIENT DETAILS             ******\n");
-    printf("\t\t\t*****      4. CHECK DEASESES AND ITS MEDICAN   ******\n");
-    printf("\t\t\t*****      5. FEEDBACK ON THE HOSPITAL         ******\n");
-    printf("\t\t\t*****      6. EXIT                             ******\n");
-    printf("\t\t\t*****                                          ******\n");
-    printf("\t\t\t*****                                          ******\n");
-    printf("\t\t\t*****************************************************\n");
-    printf("\t\t\t*****************************************************\n");
-    printf("\n\n");
-
-
-}
-
+//Loading animation Function:
 
 void loading_animation() {
     char loading[15] = {'L', 'o', 'a', 'd', 'i', 'n', 'g', '.', '.', '.', '.'};
@@ -85,6 +258,7 @@ void loading_animation() {
     printf("\r                    \r");
 }
 
+//Exiting animattion function:
 
 void Exiting_animation() {
     char loading[15] = {'E', 'x', 'i', 't', 'i', 'n', 'g', '.', '.', '.', '.'};
@@ -98,102 +272,16 @@ void Exiting_animation() {
     printf("\r                    \r");
 }
 
-int main() {
-    system("color 70");
-    printf("\n\n\t\t*********** WELCOME TO THE HOSPITAL MANAGEMENT SYSTEM **********\n\n");
-    display();
-
-    int option;
-    struct patient patients[100];
-    int patient_count = load_patient_details(patients);
-
-    do {
-
-        display_menu();
-        system("color 70");
-        printf("\t\t\tEnter the option: ");
-        scanf("%d", &option);
-
-        switch(option) {
-            case 1: {
-                loading_animation();
-                patient_details(patients, &patient_count);
-                save_patient_details(patients, patient_count);
-                break;
-            }
-            case 2: {
-                loading_animation();
-                take_details(patients, patient_count);
-                break;
-            }
-            case 3: {
-                loading_animation();
-                update_patient_details();
-                break;
-            }
-            case 4: {
-                loading_animation();
-                check();
-                break;
-            }
-            case 5:
-                feedback();
-                break;
-            case 6:
-                Exiting_animation();
-                exit(0);
-            default:
-                printf("Invalid option\n");
-                break;
-        }
-
-        char choice;
-        printf("\nDo you want to continue? (y/n): ");
-        getchar();
-        choice = getchar();
-        if (choice == 'n' || choice == 'N') {
-            char loading[15] = {'L', 'o', 'a', 'd', 'i', 'n', 'g', '.', '.', '.', '.'};
-            for(int i = 0; i < 3; i++) {
-            printf("\r------------------\r");
-            for(int j = 0; j <= 8; j++) {
-            printf("%c ", loading[j]);
-            usleep(100000);
-        }
-    }
-    printf("\r                    \r");
-            exit(0);
-        }
-
-    } while(option != 6);
-
-    return 0;
-}
-
-void display() {
-    int option;
-    a:
-    display_signup();
-    printf("\t\t\tEnter the Option: ");
-    scanf("%d", &option);
-    switch(option) {
-        case 1:
-            signup();
-            break;
-        case 2:
-            login();
-            break;
-        default:
-            printf("Invalid option\n");
-            goto a;
-    }
-}
+//Signup function:
 
 void signup() {
     char username[100];
     char password[100];
     printf("\t\t\tEnter username: ");
+    fflush(stdin);
     scanf("%s", username);
     printf("\t\t\tEnter password: ");
+    fflush(stdin);
     scanf("%s", password);
 
     FILE *file = fopen("users.csv", "a");
@@ -203,169 +291,157 @@ void signup() {
     }
 
     fprintf(file, "%s,%s\n", username, password);
+    //sign_up=1;
     fclose(file);
 
     printf("\t\t\tSignup successful\n");
-    exit(0);
+    printf("\n\t\tPress Enter for registration\n");
+    getch();
+    login();
 }
 
-void login() {
-    char username[100];
-    char password[100], file_username[100], file_password[100];
-    printf("\t\t\tEnter username: ");
-    scanf("%s", username);
-    printf("\t\t\tEnter password: ");
-    takepassword(password);
+// Login function :
 
-    FILE *file = fopen("users.csv", "r");
-    if (file == NULL) {
-        printf("\t\t\tCould not open file.\n");
-        exit(1);
+void login()
+{
+    char file_username[100], file_password[100];
+    char doc_user_name[]="IIES";
+    char opt[100];
+    char doc_user_password = "9949";
+    log:
+    printf("\t\t\t******************************************\n");
+    printf("\t\t\t******************************************\n");
+    printf("\t\t\t*****                               ******\n");
+    printf("\t\t\t*****     **** LOGIN ****           ******\n");
+    printf("\t\t\t*****                               ******\n");
+    printf("\t\t\t*****     1. USER LOGIN             ******\n");
+    printf("\t\t\t*****     2. DOCTOR LOGIN           ******\n");
+    printf("\t\t\t*****                               ******\n");
+    printf("\t\t\t******************************************\n");
+    printf("\t\t\t******************************************\n");
+
+    printf("\n\n\tEnter the valid option : ");
+    scanf("%s",&opt);
+    if(opt[0]=='1')
+    {
+        printf("\n\t\tEnter username: ");
+        scanf("%s", username);
+        printf("\n\t\tEnter password: ");
+        takepassword(password);
+
+        FILE *file = fopen("sign_up.csv", "r");
+        if (file == NULL)
+        {
+            printf("Could not open file.\n");
+            exit(1);
+        }
+
+        logged_in = 0;
+        while (fscanf(file, "%[^,],%s\n", file_username, file_password) != EOF)
+        {
+            if (strcmp(username, file_username) == 0 && strcmp(password, file_password) == 0)
+            {
+                logged_in = 1;
+                break;
+            }
+        }
+        fclose(file);
     }
+    else if(opt[0]=='2')
+    {
+        printf("\n\t\tEnter DOCTOR Name: ");
+        scanf("%s", username);
+        printf("\n\t\tEnter DOCTOR Password: ");
+        scanf("%s", password);
+        if(strcmp(username,doc_user_name)==0 && strcmp(password, doc_user_password) == 0)
+        {
+            printf("1. CHECK THE PATIENT DETAILS\n2. UPDATE PATIENT DETAILS\n3. EXIT");
+            int cho;
+            printf("\nEnter your option");
+            scanf("%d",&cho);
+            switch(cho)
+            {
+            case 1:
+                printf("Going to check the patient details: \n");
+                loading_animation();
+                check_details();
+                break;
+            case 2:
+                printf("Going to Update the Patient details: \n");
+                loading_animation();
+                update_details();
+                break;
+            case 3:
+                Exiting_animation();
+                printf("Exited Successfully");
+                exit(0);
+            default:printf("Enter the valid option");
 
-    while (fscanf(file, "%[^,],%s\n", file_username, file_password) != EOF) {
-        if (strcmp(username, file_username) == 0 && strcmp(password, file_password) == 0) {
-            logged_in = 1;
+            }
+            getch();
+        }
+    }
+    else
+    {
+        printf("\n\n\t\t\tEnter Valid Option ");
+        fflush(stdin);
+        printf("\n\t\tPress any Key to View Login Menu");
+        getch();
+        goto log;
+    }
+}
+
+//Take the Password and Print *
+void takepassword(char password[20])
+{
+    int i=0;
+    char ch;
+    while(1)
+    {
+        ch = getch();
+        if(ch==13){
+            password[i]='\0';
             break;
         }
-    }
-    fclose(file);
-
-    if (logged_in) {
-        printf("\t\t\tLogin successful\n");
-
-
-    } else {
-        printf("\t\t\tInvalid username or password\n");
-        exit(1);
-    }
-}
-
-void save_patient_details(struct patient p[], int size) {
-    FILE *file = fopen("patients.txt", "w");
-    if (file == NULL) {
-        printf("\t\t\tCould not open file %s for writing.\n", "patients.txt");
-        exit(1);
-    }
-
-    for (int i = 0; i < size; i++) {
-        fprintf(file, "%s,%d,%d,%lld,%s\n", p[i].name, p[i].age, p[i].bed_no, p[i].pno, p[i].address);
-    }
-
-    fclose(file);
-}
-
-int load_patient_details(struct patient p[]) {
-    FILE *file = fopen("patients.txt", "r");
-    if (file == NULL) {
-        return 0;
-    }
-
-    int count = 0;
-    while (fscanf(file, "%[^,],%d,%d,%lld,%[^\n]\n", p[count].name, &p[count].age, &p[count].bed_no, &p[count].pno, p[count].address) != EOF) {
-        count++;
-    }
-    fclose(file);
-    return count;
-}
-
-void patient_details(struct patient p[], int* size) {
-    int count;
-    system("color 70");
-    printf("\t\t\tEnter the number of patients you want to add: ");
-    scanf("%d", &count);
-
-    for (int i = 0; i < count; i++) {
-        printf("\t\t\tEnter the patient name: ");
-        getchar();
-        fgets(p[*size].name, sizeof(p[*size].name), stdin);
-        p[*size].name[strcspn(p[*size].name, "\n")] = '\0';
-
-        printf("\t\t\tEnter the age of the patient: ");
-        scanf("%d", &p[*size].age);
-        printf("\t\t\tEnter the Bed number of the patient: ");
-        scanf("%d", &p[*size].bed_no);
-        printf("\t\t\tEnter the phone number of the patient: ");
-        scanf("%lld", &p[*size].pno);
-        printf("\t\t\tEnter the patient address: ");
-        getchar();
-        fgets(p[*size].address, sizeof(p[*size].address), stdin);
-        p[*size].address[strcspn(p[*size].address, "\n")] = '\0';
-
-        (*size)++;
-    }
-}
-
-void take_details(struct patient p[], int size) {
-    int option;
-    printf("\t\t\tEnter the bed number to check: ");
-    scanf("%d", &option);
-
-    for (int i = 0; i < size; i++) {
-        if (option == p[i].bed_no) {
-            printf("\t\t\t\tPatient name: %s\n", p[i].name);
-            printf("\t\t\t\tPatient age: %d\n", p[i].age);
-            printf("\t\t\t\tPatient bed number: %d\n", p[i].bed_no);
-            printf("\t\t\t\tPatient mobile number: %lld\n", p[i].pno);
-            printf("\t\t\t\tPatient address: %s\n", p[i].address);
-            return;
+        else if(ch==8)   //backslash
+        {
+            if(i>0)
+            {
+                i--;
+                printf("\b\b");
+            }
+        }
+        else if(ch==9||ch==32){  //Space || Tab
+            continue;
+        }
+        else{
+            password[i++]=ch;
+            printf("*");
         }
     }
-    printf("\t\t\tPatient with bed number %d not found.\n", option);
+    printf("\n");
 }
 
-void update_patient_details() {
-    FILE *file = fopen("patients.txt", "r+");
-    if (file == NULL) {
-        printf("\t\t\tCould not open file %s for reading and writing.\n", "patients.txt");
-        exit(1);
+// Feedback for the services:
+
+void feedback()
+{
+
+    FILE *ptr;
+    ptr =fopen("Feedback.doc","a");
+
+    if (ptr!=NULL){
+            char feedback[2000];
+            printf("\t\t\tEnter the Feedback: ");
+            fgets(feedback,sizeof(feedback),stdin);
+        fprintf(ptr,"\t\t\tFeedback: %s\n",feedback);
+    }else{
+    printf("\t\t\tFile could not opened successfully");
     }
 
-    struct patient p;
-    int bed_no, found = 0;
-
-    printf("\t\t\tEnter the bed number of the patient to update: ");
-    scanf("%d", &bed_no);
-
-    FILE *temp_file = fopen("temp.txt", "a");
-    if (temp_file == NULL) {
-        printf("\t\t\tCould not open temp file for writing.\n");
-        exit(1);
-    }
-
-    while (fscanf(file, "%[^,],%d,%d,%lld,%[^\n]\n", p.name, &p.age, &p.bed_no, &p.pno, p.address) != EOF) {
-        if (p.bed_no == bed_no) {
-            found = 1;
-            printf("\t\t\tEnter new details for bed number %d:\n", bed_no);
-            printf("\n");
-            printf("\t\t\tEnter the patient name: ");
-            getchar();
-            fgets(p.name, sizeof(p.name), stdin);
-            p.name[strcspn(p.name, "\n")] = '\0';
-
-            printf("\t\t\tEnter the age of the patient: ");
-            scanf("%d", &p.age);
-            printf("\t\t\tEnter the phone number of the patient: ");
-            scanf("%lld", &p.pno);
-            printf("\t\t\tEnter the patient address: ");
-            getchar();
-            fgets(p.address, sizeof(p.address), stdin);
-            p.address[strcspn(p.address, "\n")] = '\0';
-        }
-        fprintf(temp_file, "%s,%d,%d,%lld,%s\n", p.name, p.age, p.bed_no, p.pno, p.address);
-    }
-
-    fclose(file);
-    fclose(temp_file);
-
-    if (!found) {
-        printf("\t\t\tPatient with bed number %d not found.\n", bed_no);
-    } else {
-        remove("patients.txt");
-        rename("temp.txt", "patients.txt");
-        printf("\t\t\tPatient details updated successfully.\n");
-    }
 }
+
+//Check Function for deaseses:
 
 void check() {
 
@@ -595,49 +671,4 @@ void check() {
             printf("\t\t\t\t !! Wrong Option !! \n");
             goto a;
     }
-}
-void feedback()
-{
-
-    FILE *ptr;
-    ptr =fopen("Feedback.doc","a");
-    if (ptr!=NULL){
-            char feedback[2000];
-            printf("\t\t\tEnter the Feedback: ");
-            fgets(feedback,sizeof(feedback),stdin);
-        fprintf(ptr,"\t\t\tFeedback: %s\n",feedback);
-    }else{
-    printf("\t\t\tFile could not opened successfully");
-    }
-
-}
-//Take the Password and Print *
-void takepassword(char password[20])
-{
-    int i=0;
-    char ch;
-    while(1)
-    {
-        ch = getch();
-        if(ch==13){
-            password[i]='\0';
-            break;
-        }
-        else if(ch==8)   //backslash
-        {
-            if(i>0)
-            {
-                i--;
-                printf("\b\b");
-            }
-        }
-        else if(ch==9||ch==32){  //Space || Tab
-            continue;
-        }
-        else{
-            password[i++]=ch;
-            printf("*");
-        }
-    }
-    printf("\n");
 }
