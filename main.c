@@ -196,7 +196,7 @@ void update_details() {
             printf("\n\t\tPatient Phone number: %lld", patients[i].pno);
             printf("\n\t\tPatient Address: %s", patients[i].address);
 
-            printf("Are these details are correct (Y/N)? ");
+            printf("Are these are the patient details you want to update (Y/N)? ");
             scanf(" %c", &op);
             getchar();
 
