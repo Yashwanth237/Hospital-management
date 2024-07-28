@@ -11,6 +11,7 @@ int opt=0;
 char username[100];
 char password[20];
 int igs=0;
+int patient_count = load_patient_details(patients);
 
 ////global Structure:
 
