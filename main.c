@@ -304,9 +304,9 @@ void signup() {
 void login()
 {
     char file_username[100], file_password[100];
-    char doc_user_name[]="IIES";
+    char doc_user_name[100]="IIES";
     char opt[100];
-    char doc_user_password = "9949";
+    char doc_user_password[100]= "9949";
     log:
     printf("\t\t\t******************************************\n");
     printf("\t\t\t******************************************\n");
