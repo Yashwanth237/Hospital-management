@@ -76,7 +76,15 @@ label:
                     loading_animation();
                     update_details();
                     break;
-                case 4:
+                 case 4:
+                    loading_animation();
+                    check();
+                    break;
+                case 5:
+                    loading_animation();
+                    feedback();
+                    break;
+                case 6:
                     Exiting_animation();
                     printf("\n\t\tExited Successfully......");
                     continue_program = 0;
