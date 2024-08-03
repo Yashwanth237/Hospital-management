@@ -1,10 +1,12 @@
-/*This program is a Hospital Receptionist Management system. It is designed to help manage the data of patients, making it more useful and efficient for the receptionist.*/ 
+/*This program is a Hospital Receptionist Management system. It is designed to help manage the data of patients, making it more useful and efficient for the receptionist.*/
 
 //Header files
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <conio.h>
+#include <unistd.h>
 
 //Patients max number :100
 #define SIZE 100
@@ -36,6 +38,8 @@ void Exiting_animation();
 void signup();
 void login();
 void takepassword(char *password);
+void check();
+void feedback();
 
 //MAIN FUNCTION:
 int main() {
@@ -109,7 +113,7 @@ label:
     return 0;
 }
 
-// patient_details(), This Function helps to add the patient details and stores it in a patients.csv file 
+// patient_details(), This Function helps to add the patient details and stores it in a patients.csv file
 void patient_details() {
     int num_patients;
     printf("\n\t\t\tHow many patients do you want to add: ");
@@ -148,7 +152,7 @@ void patient_details() {
     printf("\n\tThe Details are saved Successfully.......\n");
 }
 
-// check_details(), This Function helps toCheck the patient details in the patients.csv file 
+// check_details(), This Function helps toCheck the patient details in the patients.csv file
 void check_details() {
     int bed_no;
     printf("\n\t\tEnter the bed number to check the patient details: ");
@@ -180,7 +184,7 @@ void check_details() {
     }
 }
 
-// update_details(), This Function helps to Update the patient details and stores in the patients.csv file 
+// update_details(), This Function helps to Update the patient details and stores in the patients.csv file
 void update_details() {
     int bed_no;
     char op;
@@ -270,7 +274,7 @@ void display_signup() {
     printf("\n\n");
 }
 
-//loading_animation(), this is a loading animation 
+//loading_animation(), this is a loading animation
 void loading_animation() {
     char loading[15] = {'L', 'o', 'a', 'd', 'i', 'n', 'g', '.', '.', '.', '.'};
     for (int i = 0; i < 3; i++) {
@@ -283,7 +287,7 @@ void loading_animation() {
     printf("\r                    \r");
 }
 
-//Exiting_animation(), this is a Exiting animation 
+//Exiting_animation(), this is a Exiting animation
 void Exiting_animation() {
     char loading[15] = {'E', 'x', 'i', 't', 'i', 'n', 'g', '.', '.', '.', '.'};
     for (int i = 0; i < 3; i++) {
@@ -691,7 +695,7 @@ void check() {
     }
 }
 
-//Feedback(), Function is used to take the feedback from the user about the service of the hospital.
+// Function is used to take the feedback from the user about the service of the hospital.
 
 void feedback()
 {
@@ -710,3 +714,4 @@ void feedback()
     }
 
 }
+
