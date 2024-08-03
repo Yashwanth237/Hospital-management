@@ -188,7 +188,7 @@ void check_details() {
 void update_details() {
     int bed_no;
     char op;
-
+    bed:
     printf("\t\tEnter the bed number to check and update the patient details: ");
     scanf("%d", &bed_no);
     getchar();
@@ -229,7 +229,8 @@ void update_details() {
                 printf("Details updated successfully.\n");
             } else if (op == 'N' || op == 'n') {
                 printf("Rechecking details...\n");
-                i = -1; // Restart the loop
+                i = -1; 
+                goto bed;
             } else {
                 printf("\t\t\tYou entered an invalid option.\n");
             }
